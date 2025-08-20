@@ -107,26 +107,40 @@ foreach ($visits as $visit) {
         }
     }
 
-    // ExpectedArrivalTime (real-time)
-    $expected = $visit->xpath('siri:MonitoredVehicleJourney/siri:MonitoredCall/siri:ExpectedArrivalTime');
-    $expectedTime = ($expected && isset($expected[0])) ? (string)$expected[0] : null;
+    $tzLocal = new DateTimeZone('Europe/London');
 
-    // AimedArrivalTime (scheduled)
-    $aimed = $visit->xpath('siri:MonitoredVehicleJourney/siri:MonitoredCall/siri:AimedArrivalTime');
-    $aimedTime = ($aimed && isset($aimed[0])) ? (string)$aimed[0] : null;
+    // 1) Read raw UTC strings from XML
+    $expectedNode = $visit->xpath('siri:MonitoredVehicleJourney/siri:MonitoredCall/siri:ExpectedArrivalTime');
+    $aimedNode    = $visit->xpath('siri:MonitoredVehicleJourney/siri:MonitoredCall/siri:AimedArrivalTime');
 
-    // Pick sort key (expected preferred, fallback to aimed)
-    $sortKey = $expectedTime ?? $aimedTime;
-    $typeLabel = $expectedTime ? 'Expected' : 'Aimed';
+    $expectedUtcStr = ($expectedNode && isset($expectedNode[0])) ? (string)$expectedNode[0] : null;
+    $aimedUtcStr    = ($aimedNode && isset($aimedNode[0]))    ? (string)$aimedNode[0]    : null;
 
-    // Minutes from now
-    $minutesFromNow = $sortKey ? round((strtotime($sortKey) - $now) / 60) : null;
+    // 2) Convert to DateTime (UTC) for calculations
+    $expectedUtc = $expectedUtcStr ? new DateTimeImmutable($expectedUtcStr, new DateTimeZone('UTC')) : null;
+    $aimedUtc    = $aimedUtcStr    ? new DateTimeImmutable($aimedUtcStr,    new DateTimeZone('UTC')) : null;
+
+    // 3) Pick sort key in UTC
+    $sortKeyUtc = $expectedUtc ?? $aimedUtc;
+    $typeLabel  = $expectedUtc ? 'Expected' : 'Aimed';
+
+    // 4) Minutes from now 
+    if ($sortKeyUtc) {
+        $nowUtc = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+        $minutesFromNow = (int) round(($sortKeyUtc->getTimestamp() - $nowUtc->getTimestamp()) / 60);
+    } else {
+        $minutesFromNow = null;
+    }
+
+    // 5) Create display strings in local time 
+    $expectedTime = $expectedUtc ? $expectedUtc->setTimezone($tzLocal)->format('Y-m-d H:i T') : null;
+    $aimedTime    = $aimedUtc    ? $aimedUtc->setTimezone($tzLocal)->format('Y-m-d H:i T') : null;
 
     $results[] = [
-        'line'     => $lineRef,
-        'time'     => $sortKey ? date("H:i", strtotime($sortKey)) : null,
-        'due_in'   => $minutesFromNow,
-        'type'     => $typeLabel
+        'line'   => $lineRef,
+        'time'   => $sortKeyUtc ? $sortKeyUtc->setTimezone($tzLocal)->format('H:i') : null,
+        'due_in' => $minutesFromNow,
+        'type'   => $typeLabel
     ];
 }
 
