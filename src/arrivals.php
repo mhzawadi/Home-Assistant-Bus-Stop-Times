@@ -8,8 +8,8 @@
  * @author     Neil Thompson <neil@spokenlikeageek.com>
  * @copyright  2025 Neil Thompson
  * @license    https://www.gnu.org/licenses/gpl-3.0.en.html  GNU General Public License v3.0
- * @link       https://github.com/williamsdb/ha-bus-stop Home Assistant - Bus Stop Times on GitHub
- * @see        https://www.spokenlikeageek.com/tag/h-bus-stop/ Blog post
+ * @link       https://github.com/williamsdb/Home-Assistant---Bus-Stop-Times Home Assistant - Bus Stop Times on GitHub
+ * @see        https://www.spokenlikeageek.com/tag/bus-stop-times/ Blog post
  *
  * ARGUMENTS
  *
@@ -88,6 +88,14 @@ foreach ($visits as $visit) {
     $line = $visit->xpath('siri:MonitoredVehicleJourney/siri:LineRef');
     $lineRef = ($line && isset($line[0])) ? (string)$line[0] : '—';
 
+    // If $lines is provided, filter by allowed line refs (case-insensitive, string compare)
+    if (isset($lines) && is_array($lines) && !empty($lines)) {
+        $allowedLines = array_map('strtolower', array_map('strval', $lines));
+        if (!in_array(strtolower((string)$lineRef), $allowedLines, true)) {
+            continue;
+        }
+    }
+
     // ExpectedArrivalTime (real-time)
     $expected = $visit->xpath('siri:MonitoredVehicleJourney/siri:MonitoredCall/siri:ExpectedArrivalTime');
     $expectedTime = ($expected && isset($expected[0])) ? (string)$expected[0] : null;
@@ -111,9 +119,9 @@ foreach ($visits as $visit) {
     ];
 }
 
-// Sort by time
+// Sort by soonest due
 usort($results, function ($a, $b) {
-    return strtotime($a['time']) <=> strtotime($b['time']);
+    return ($a['due_in'] ?? PHP_INT_MAX) <=> ($b['due_in'] ?? PHP_INT_MAX);
 });
 
 // Convert minutes to friendly string

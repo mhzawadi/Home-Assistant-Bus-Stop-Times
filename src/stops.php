@@ -9,8 +9,8 @@
  * @author     Neil Thompson <neil@spokenlikeageek.com>
  * @copyright  2025 Neil Thompson
  * @license    https://www.gnu.org/licenses/gpl-3.0.en.html  GNU General Public License v3.0
- * @link       https://github.com/williamsdb/ha-bus-stop Home Assistant - Bus Stop Times on GitHub
- * @see        https://www.spokenlikeageek.com/tag/h-bus-stop/ Blog post
+ * @link       https://github.com/williamsdb/Home-Assistant---Bus-Stop-Times Home Assistant - Bus Stop Times on GitHub
+ * @see        https://www.spokenlikeageek.com/tag/bus-stop-times/ Blog post
  *
  * ARGUMENTS
  *
