@@ -98,7 +98,7 @@ Edit the config.php file to add your:
 
 * api key
 * bus stop location
-* filter the lines you are interested in.
+* filter the lines you are interested in (a comma separated array).
 
 To find your stop go to ```https://<your domain>/stops.php``` and copy the location code.
 

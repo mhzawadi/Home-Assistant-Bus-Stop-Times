@@ -58,6 +58,21 @@ if ($body === false || $code < 200 || $code >= 300) {
 header('Content-Type: text/html; charset=utf-8');
 
 $data = json_decode($body, true);
+
+// Dedupe by location_code (keep first occurrence)
+if (is_array($data)) {
+    $seen = [];
+    $deduped = [];
+    foreach ($data as $row) {
+        $key = isset($row['location_code']) ? (string)$row['location_code'] : md5(serialize($row));
+        if (!isset($seen[$key])) {
+            $seen[$key] = true;
+            $deduped[] = $row;
+        }
+    }
+    $data = $deduped;
+}
+
 if (!is_array($data)) {
     fwrite(STDERR, "Invalid JSON received from API<br>");
     exit(1);

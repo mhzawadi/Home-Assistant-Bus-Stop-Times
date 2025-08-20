@@ -32,6 +32,17 @@ try {
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// has a stop been specified?
+if (isset($_GET['stop']) && !empty($_GET['stop'])) {
+    $stop = $_GET['stop'];
+}
+
+// has a line been specified?
+if (isset($_GET['line']) && !empty($_GET['line'])) {
+    $lines = explode(',', $_GET['line']);
+    $lines = array_map('trim', $lines); // trim whitespace
+}
+
 $url = "$endpoint/siri-sm?api_token=$apiToken&location=$stop";
 
 // Fetch
