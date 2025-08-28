@@ -1,0 +1,28 @@
+name: build dev image
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v5
+      - uses: michaelw90/PHP-Lint@master
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: login to docker hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: build the image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: mhzawadi/home-assistant-bus-stop-times:dev
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          file: ./docker/Dockerfile-dev

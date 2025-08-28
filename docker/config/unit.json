@@ -1,0 +1,26 @@
+{
+  "listeners": {
+    "*:8080": {
+      "pass": "routes"
+    }
+  },
+
+  "routes": [
+    {
+      "action": {
+        "pass": "applications/ha_bus_times"
+      }
+    }
+  ],
+
+  "applications": {
+    "ha_bus_times": {
+      "type": "php",
+      "root": "/var/www/html/",
+      "index": "index.php"
+    }
+  },
+  "access_log": {
+    "path": "/var/log/unit/access.log"
+  }
+}
