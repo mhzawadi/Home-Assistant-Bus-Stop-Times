@@ -46,7 +46,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-I wanted a project that could show how Home Assistant could be used for more than simply turning on and off the lights. I am slowly working up to having a dashboard display on an old Android tablet and I decided that what would be useful would be a list of the next bus arrivals at our nearest stop. 
+I wanted a project that could show how Home Assistant could be used for more than simply turning on and off the lights. I am slowly working up to having a dashboard display on an old Android tablet and I decided that what would be useful would be a list of the next bus arrivals at our nearest stop.
 
 This is based around Reading Buses but it will work with any bus company that uses the [r2p](https://www.r2p.com/) service which includes both Oxford and Plymouth to my knowledge at the time of writing.
 
@@ -70,6 +70,7 @@ Read more about the project [here](https://www.spokenlikeageek.com/2025/09/01/ho
 <!-- GETTING STARTED -->
 ## Getting Started
 
+### Running from source
 Getting up and running is very straightforward:
 
 1. download the code/clone the repository    
@@ -105,6 +106,39 @@ To find your stop go to ```https://<your domain>/stops.php``` and copy the locat
 ![](https://www.spokenlikeageek.com/wp-content/uploads/2025/08/SCR-20250820-jfnu-scaled.png)
 
 
+### Running in Docker
+
+You will need docker installed to use this method
+
+1. A run  command
+```
+docker run -it --rm -e 'apiToken=YOURAPITOKENHERE' -e 'endpoint=wiltshire' -p 80:8080 mhzawadi/home-assistant-bus-stop-times
+```
+
+2. With a compose file
+```
+---
+services:
+  bus-stop-times:
+    image: mhzawadi/home-assistant-bus-stop-times
+    container_name: bus-stop-times
+    ports:
+      - "8080:8080/tcp"
+    environment:
+      TZ: 'Europe/London'
+      apiToken: 'YOURAPITOKENHERE'
+      endpoint: 'wiltshire'
+    restart: unless-stopped
+```
+
+#### Docker environment variables
+
+- TZ: The timezone your live in
+- apiToken: The token from the API page
+- endpoint: what county to get bus times from
+- stop: What stop to get from, this can be left out and added to the URL
+  - e.g. `https://<your domain>/arrivals.php?stop=4600WIA10816`
+
 ### Integration into Home Assistant
 
 In order to use the script with Home Assistant you will need to tell HA about the feed. You do this by adding a new entry into your configuration.yml file as follows:
@@ -135,7 +169,7 @@ title: Bus Schedule
 content: |
   {% set buses = state_attr('sensor.all_upcoming_buses', 'buses') %}
   {% for bus in buses %}
-  {{ bus.time }}  {{ bus.due_in_str }} ({{ bus.type }}) 
+  {{ bus.time }}  {{ bus.due_in_str }} ({{ bus.type }})
   ---
   {% endfor %}
 ```
@@ -223,7 +257,7 @@ Distributed under the GNU General Public License v3.0. See `LICENSE` for more in
 <!-- CONTACT -->
 ## Contact
 
-X - [@spokenlikeageek](https://x.com/spokenlikeageek) 
+X - [@spokenlikeageek](https://x.com/spokenlikeageek)
 
 Bluesky - [@spokenlikeageek.com](https://bsky.app/profile/spokenlikeageek.com)
 
@@ -277,4 +311,4 @@ Project link - [Github](https://github.com/williamsdb/Home-Assistant---Bus-Stop-
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
+[JQuery-url]: https://jquery.com
