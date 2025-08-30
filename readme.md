@@ -47,7 +47,7 @@ This is based around Reading Buses but it will work with any bus company that us
 
 Read more about the project [here](https://www.spokenlikeageek.com/2025/09/01/home-assistant-bus-stop-times/).
 
-![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/SCR-20250820-kteq.png)
+![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/melksham_market.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -98,7 +98,7 @@ Edit the config.php file to add your:
 
 To find your stop go to ```https://<your domain>/stops.php``` and copy the location code.
 
-![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/SCR-20250820-jfnu-scaled.png)
+![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/melksham_markdown.png)
 
 
 ## Running in Docker
@@ -171,7 +171,7 @@ content: |
   {% endfor %}
 ```
 
-![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/SCR-20250820-jxjk.png)
+![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/melksham_unformat.png)
 
 ### Formatted card
 
@@ -198,7 +198,7 @@ content: |
   </table>
 ```
 
-![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/SCR-20250820-kuws.png)
+![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/melksham_format.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
