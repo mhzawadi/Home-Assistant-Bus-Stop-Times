@@ -1,20 +1,11 @@
-<a name="readme-top"></a>
-
-
-<!-- PROJECT LOGO -->
-<br />
 <div align="center">
-
 <h3 align="center">Home Assistant - Bus Stop Times</h3>
-
+  <a name="readme-top"></a>
   <p align="center">
     List of bus arrivals at your stop in a Home Assistant card.
     <br />
   </p>
 </div>
-
-
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -28,8 +19,12 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#Running-from-source">Running from source</a></li>
+          <ul>
+            <li><a href="#Prerequisites">Prerequisites</a></li>
+            <li><a href="#Installation">Installation</a></li>
+          </ul>
+        <li><a href="#Running-in-Docker">Running in Docker</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -44,7 +39,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+# About The Project
 
 I wanted a project that could show how Home Assistant could be used for more than simply turning on and off the lights. I am slowly working up to having a dashboard display on an old Android tablet and I decided that what would be useful would be a list of the next bus arrivals at our nearest stop.
 
@@ -68,9 +63,9 @@ Read more about the project [here](https://www.spokenlikeageek.com/2025/09/01/ho
 
 
 <!-- GETTING STARTED -->
-## Getting Started
+# Getting Started
 
-### Running from source
+## Running from source
 Getting up and running is very straightforward:
 
 1. download the code/clone the repository    
@@ -106,7 +101,7 @@ To find your stop go to ```https://<your domain>/stops.php``` and copy the locat
 ![](https://www.spokenlikeageek.com/wp-content/uploads/2025/08/SCR-20250820-jfnu-scaled.png)
 
 
-### Running in Docker
+## Running in Docker
 
 You will need docker installed to use this method
 
@@ -131,7 +126,7 @@ services:
     restart: unless-stopped
 ```
 
-#### Docker environment variables
+### Docker environment variables
 
 - TZ: The timezone your live in
 - apiToken: The token from the API page
@@ -139,7 +134,7 @@ services:
 - stop: What stop to get from, this can be left out and added to the URL
   - e.g. `https://<your domain>/arrivals.php?stop=4600WIA10816`
 
-### Integration into Home Assistant
+## Integration into Home Assistant
 
 In order to use the script with Home Assistant you will need to tell HA about the feed. You do this by adding a new entry into your configuration.yml file as follows:
 
@@ -159,7 +154,7 @@ rest:
 
 Remember to change the above to have your domain name.
 
-#### Basic card
+### Basic card
 
 For a very simple card with no formatting you can add the following markdown card to your dashboard:
 
@@ -176,7 +171,7 @@ content: |
 
 ![](https://www.spokenlikeageek.com/wp-content/uploads/2025/08/SCR-20250820-jxjk.png)
 
-#### Formatted card
+### Formatted card
 
 This uses an HTML table for better formatting:
 
@@ -208,7 +203,7 @@ content: |
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+# Usage
 
 _For more information, please refer to the [these blog posts](https://www.spokenlikeageek.com/tag/bus-stop-times/)_
 
@@ -217,7 +212,7 @@ _For more information, please refer to the [these blog posts](https://www.spoken
 
 
 <!-- ROADMAP -->
-## Known Issues
+# Known Issues
 
 - None
 
@@ -228,7 +223,7 @@ See the [open issues](https://github.com/williamsdb/Home-Assistant---Bus-Stop-Ti
 
 
 <!-- CONTRIBUTING -->
-## Contributing
+# Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -243,16 +238,11 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- LICENSE -->
 ## License
 
 Distributed under the GNU General Public License v3.0. See `LICENSE` for more information.
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- CONTACT -->
 ## Contact
@@ -270,16 +260,12 @@ Project link - [Github](https://github.com/williamsdb/Home-Assistant---Bus-Stop-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
 * None
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
