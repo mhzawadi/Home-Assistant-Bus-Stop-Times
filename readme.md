@@ -47,7 +47,7 @@ This is based around Reading Buses but it will work with any bus company that us
 
 Read more about the project [here](https://www.spokenlikeageek.com/2025/09/01/home-assistant-bus-stop-times/).
 
-![](https://www.spokenlikeageek.com/wp-content/uploads/2025/08/SCR-20250820-kteq.png)
+![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/SCR-20250820-kteq.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -98,7 +98,7 @@ Edit the config.php file to add your:
 
 To find your stop go to ```https://<your domain>/stops.php``` and copy the location code.
 
-![](https://www.spokenlikeageek.com/wp-content/uploads/2025/08/SCR-20250820-jfnu-scaled.png)
+![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/SCR-20250820-jfnu-scaled.png)
 
 
 ## Running in Docker
@@ -133,6 +133,8 @@ services:
 - endpoint: what county to get bus times from
 - stop: What stop to get from, this can be left out and added to the URL
   - e.g. `https://<your domain>/arrivals.php?stop=4600WIA10816`
+- lines: This is a comma separated array of lines, this can be left out and added to the URL
+  - e.g. `https://<your domain>/arrivals.php?stop=4600WIA10816&lines=272,271`
 
 ## Integration into Home Assistant
 
@@ -169,7 +171,7 @@ content: |
   {% endfor %}
 ```
 
-![](https://www.spokenlikeageek.com/wp-content/uploads/2025/08/SCR-20250820-jxjk.png)
+![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/SCR-20250820-jxjk.png)
 
 ### Formatted card
 
@@ -196,7 +198,7 @@ content: |
   </table>
 ```
 
-![](https://www.spokenlikeageek.com/wp-content/uploads/2025/08/SCR-20250820-kuws.png)
+![](https://raw.githubusercontent.com/mhzawadi/Home-Assistant-Bus-Stop-Times/refs/heads/main/img/SCR-20250820-kuws.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

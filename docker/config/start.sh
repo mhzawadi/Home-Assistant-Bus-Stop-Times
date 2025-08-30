@@ -22,6 +22,10 @@ if [ "$stop" != "" ]
 then
   sed -i "s!\$stop = \"\";!\$stop = \"$stop\";!" /var/www/html/config.php
 fi
+if [ "$lines" != "" ]
+then
+  sed -i "s!\$lines = \"\";!\$lines = \"$lines\";!" /var/www/html/config.php
+fi
 
 if [ "$1" = "unitd" ] || [ "$1" = "unitd-debug" ]; then
     if /usr/bin/find "/var/lib/unit/" -mindepth 1 -print -quit 2>/dev/null | /bin/grep -q .; then
