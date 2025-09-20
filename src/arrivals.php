@@ -79,7 +79,7 @@ if ($xml === false) {
 }
 
 // Register namespace and select visits
-$xml->registerXPathNamespace('siri', 'http://www.siri.org.uk/siri');
+$xml->registerXPathNamespace('siri', '');
 $visits = $xml->xpath('//siri:StopMonitoringDelivery/siri:MonitoredStopVisit');
 if ($visits === false) {
     fwrite(STDERR, "XPath evaluation failed<br>");
@@ -123,8 +123,9 @@ foreach ($visits as $visit) {
     // 3) Pick sort key in UTC
     $sortKeyUtc = $expectedUtc ?? $aimedUtc;
     $typeLabel  = $expectedUtc ? 'Expected' : 'Aimed';
+    $delayed    = $expectedUtc ? ($aimedUtc->diff($expectedUtc)) : 0;
 
-    // 4) Minutes from now 
+    // 4) Minutes from now
     if ($sortKeyUtc) {
         $nowUtc = new DateTimeImmutable('now', new DateTimeZone('UTC'));
         $minutesFromNow = (int) round(($sortKeyUtc->getTimestamp() - $nowUtc->getTimestamp()) / 60);
@@ -132,15 +133,16 @@ foreach ($visits as $visit) {
         $minutesFromNow = null;
     }
 
-    // 5) Create display strings in local time 
+    // 5) Create display strings in local time
     $expectedTime = $expectedUtc ? $expectedUtc->setTimezone($tzLocal)->format('Y-m-d H:i T') : null;
     $aimedTime    = $aimedUtc    ? $aimedUtc->setTimezone($tzLocal)->format('Y-m-d H:i T') : null;
 
     $results[] = [
-        'line'   => $lineRef,
-        'time'   => $sortKeyUtc ? $sortKeyUtc->setTimezone($tzLocal)->format('H:i') : null,
-        'due_in' => $minutesFromNow,
-        'type'   => $typeLabel
+        'line'    => $lineRef,
+        'time'    => $sortKeyUtc ? $sortKeyUtc->setTimezone($tzLocal)->format('H:i') : null,
+        'due_in'  => $minutesFromNow,
+        'type'    => $typeLabel
+        'delayed' => $delayed
     ];
 }
 
