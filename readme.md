@@ -68,7 +68,7 @@ Read more about the project [here](https://www.spokenlikeageek.com/2025/09/01/ho
 ## Running from source
 Getting up and running is very straightforward:
 
-1. download the code/clone the repository    
+1. download the code/clone the repository
 4. follow the installation instructions below.
 
 
@@ -183,15 +183,19 @@ title: Bus Schedule
 content: |
   <table width="100%">
     <tr class="header">
+      <th>Service</th>
       <th>Time</th>
       <th>Due In</th>
+      <th>Delayed By</th>
       <th>Type</th>
     </tr>
     {% set buses = state_attr('sensor.all_upcoming_buses', 'buses') %}
     {% for bus in buses %}
     <tr class="data {% if bus.type|lower == 'expected' %}expected{% endif %}">
+      <td align="center">{{ bus.line }}</td>
       <td align="center">{{ bus.time }}</td>
       <td align="center">{{ bus.due_in_str }}{% if bus.due_in > 1 %}s{% endif %}</td>
+      <td align="center">{{ bus.delayed }}</td>
       <td align="center">{{ bus.type }}</td>
     </tr>
     {% endfor %}
