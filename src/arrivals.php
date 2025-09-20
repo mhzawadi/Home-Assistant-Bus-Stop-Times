@@ -79,7 +79,7 @@ if ($xml === false) {
 }
 
 // Register namespace and select visits
-$xml->registerXPathNamespace('siri', '');
+$xml->registerXPathNamespace('siri', 'http://www.siri.org.uk/siri');
 $visits = $xml->xpath('//siri:StopMonitoringDelivery/siri:MonitoredStopVisit');
 if ($visits === false) {
     fwrite(STDERR, "XPath evaluation failed<br>");
@@ -123,7 +123,7 @@ foreach ($visits as $visit) {
     // 3) Pick sort key in UTC
     $sortKeyUtc = $expectedUtc ?? $aimedUtc;
     $typeLabel  = $expectedUtc ? 'Expected' : 'Aimed';
-    $delayed    = $expectedUtc ? ($aimedUtc->diff($expectedUtc)) : 0;
+    $delayedBy  = $expectedUtc ? $aimedUtc->diff($expectedUtc)->format('%I minutes') : '0';
 
     // 4) Minutes from now
     if ($sortKeyUtc) {
@@ -138,11 +138,11 @@ foreach ($visits as $visit) {
     $aimedTime    = $aimedUtc    ? $aimedUtc->setTimezone($tzLocal)->format('Y-m-d H:i T') : null;
 
     $results[] = [
-        'line'    => $lineRef,
-        'time'    => $sortKeyUtc ? $sortKeyUtc->setTimezone($tzLocal)->format('H:i') : null,
-        'due_in'  => $minutesFromNow,
-        'type'    => $typeLabel,
-        'delayed' => $delayed
+        'line'   => $lineRef,
+        'time'   => $sortKeyUtc ? $sortKeyUtc->setTimezone($tzLocal)->format('H:i') : null,
+        'due_in' => $minutesFromNow,
+        'type'   => $typeLabel,
+        'delayed' => $delayedBy
     ];
 }
 

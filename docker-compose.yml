@@ -1,0 +1,11 @@
+services:
+  bus-stop-times:
+    image: mhzawadi/home-assistant-bus-stop-times
+    container_name: bus-stop-times
+    ports:
+      - "8080:8080/tcp"
+    environment:
+      TZ: 'Europe/London'
+      apiToken: 'tlNZjCyiqV5ezCdge4q0LYXV7n760uCMtgJd4mvPQ8f2GyNXqa4ecUMzfBN9'
+      endpoint: 'wiltshire'
+    restart: unless-stopped
