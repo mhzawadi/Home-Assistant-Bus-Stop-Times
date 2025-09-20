@@ -141,7 +141,7 @@ foreach ($visits as $visit) {
         'line'    => $lineRef,
         'time'    => $sortKeyUtc ? $sortKeyUtc->setTimezone($tzLocal)->format('H:i') : null,
         'due_in'  => $minutesFromNow,
-        'type'    => $typeLabel
+        'type'    => $typeLabel,
         'delayed' => $delayed
     ];
 }
