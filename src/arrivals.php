@@ -123,7 +123,7 @@ foreach ($visits as $visit) {
     // 3) Pick sort key in UTC
     $sortKeyUtc = $expectedUtc ?? $aimedUtc;
     $typeLabel  = $expectedUtc ? 'Expected' : 'Aimed';
-    $delayedBy  = $expectedUtc ? $aimedUtc->diff($expectedUtc)->format('%I minutes') : '0';
+    $delayedBy  = $expectedUtc ? $aimedUtc->diff($expectedUtc)->format('%i minutes') : '0';
 
     // 4) Minutes from now
     if ($sortKeyUtc) {
