@@ -3,7 +3,7 @@ LABEL org.opencontainers.image.authors="matt@horwood.biz"
 
 # Install required deb packages
 RUN apk update && apk upgrade && \
-    apk add gnupg unit-php84 php84-simplexml php84-xmlwriter php84-tokenizer \
+    apk add gnupg nginx php84-fpm php84-simplexml php84-xmlwriter php84-tokenizer \
     php84-curl php84 php84-phar curl git \
     && mkdir -p /var/www/html/ \
     && mkdir -p /run/nginx \
@@ -20,7 +20,7 @@ RUN cp /config/php.ini /etc/php84/php.ini \
 
 EXPOSE 8080
 ENTRYPOINT ["/config/start.sh"]
-CMD ["unitd", "--no-daemon", "--control", "unix:/var/run/control.unit.sock"]
+CMD ["nginx", "-g", "daemon off;"]
 
 ## Health Check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \

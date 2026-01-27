@@ -1,12 +1,5 @@
 #!/bin/sh
 
-ln -s /dev/stdout /var/log/unit.log
-ln -s /dev/stdout /var/log/unit/access.log
-
-if [ "$TZ" != "" ]
-then
-  sed -i "s!Europe/London!$TZ!" /etc/php84/php.ini
-fi
 if [ "$apiToken" != "" ]
 then
   sed -i "s!\$apiToken = \"\";!\$apiToken = \"$apiToken\";!" /var/www/html/config.php
@@ -27,48 +20,30 @@ then
   sed -i "s!\$lines = \"\";!\$lines = \"$lines\";!" /var/www/html/config.php
 fi
 
-if [ "$1" = "unitd" ] || [ "$1" = "unitd-debug" ]; then
-    if /usr/bin/find "/var/lib/unit/" -mindepth 1 -print -quit 2>/dev/null | /bin/grep -q .; then
-        echo "$0: /var/lib/unit/ is not empty, skipping initial configuration..."
-    else
-        echo "$0: Launching Unit daemon to perform initial configuration..."
-        /usr/sbin/$1 --control unix:/var/run/control.unit.sock
 
-        for i in $(/usr/bin/seq $WAITLOOPS); do
-            if [ ! -S /var/run/control.unit.sock ]; then
-                echo "$0: Waiting for control socket to be created..."
-                /bin/sleep $SLEEPSEC
-            else
-                break
-            fi
-        done
-        # even when the control socket exists, it does not mean unit has finished initialisation
-        # this curl call will get a reply once unit is fully launched
-        /usr/bin/curl -s -X GET --unix-socket /var/run/control.unit.sock http://localhost/
-
-        curl -X PUT --data-binary @/config/unit.json --unix-socket \
-         /var/run/control.unit.sock http://localhost/config/
-
-        echo "$0: Stopping Unit daemon after initial configuration..."
-        kill -TERM $(/bin/cat /var/run/unit.pid)
-
-        for i in $(/usr/bin/seq $WAITLOOPS); do
-            if [ -S /var/run/control.unit.sock ]; then
-                echo "$0: Waiting for control socket to be removed..."
-                /bin/sleep $SLEEPSEC
-            else
-                break
-            fi
-        done
-        if [ -S /var/run/control.unit.sock ]; then
-            kill -KILL $(/bin/cat /var/run/unit.pid)
-            rm -f /var/run/control.unit.sock
-        fi
-
-        echo
-        echo "$0: Unit initial configuration complete; ready for start up..."
-        echo
-    fi
+if [ -n "$allow_php_status_ip" ]
+then
+  sed -i -e "s!127.0.0.2!$allow_php_status_ip!" /etc/nginx/http.d/default.conf
 fi
+
+if [ -n "$allow_php_ping_ip" ]
+then
+  sed -i -e "s!127.0.0.3!$allow_php_ping_ip!" /etc/nginx/http.d/default.conf
+fi
+
+if [ -n "$php_ping_text" ]
+then
+  sed -e "s/pong/$php_ping_text/" /config/php_fpm_site.conf > /etc/php84/php-fpm.d/www.conf
+fi
+
+if [ -n "$php_timezone" ]
+then
+  sed -i'' "s!date.timezone = \"US/Central\"!date.timezone = \"$php_timezone\"!" /etc/php84/php.ini
+fi
+
+ln -s /dev/stdout /var/log/fpm-php.www.log
+ln -s /dev/stdout /var/log/nginx/access.log
+
+php-fpm84
 
 exec "$@"
