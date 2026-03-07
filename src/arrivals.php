@@ -123,7 +123,7 @@ foreach ($visits as $visit) {
     // 3) Pick sort key in UTC
     $sortKeyUtc = $expectedUtc ?? $aimedUtc;
     $typeLabel  = $expectedUtc ? 'Expected' : 'Aimed';
-    $delayedBy  = $expectedUtc ? $aimedUtc->diff($expectedUtc)->format('%i minutes') : '0 minutes';
+    $delayedBy  = $expectedUtc ? $aimedUtc->diff($expectedUtc)->format('%i mins') : '0 min';
 
     // 4) Minutes from now
     if ($sortKeyUtc) {
@@ -159,9 +159,9 @@ foreach ($results as &$r) {
         $hours = floor($r['due_in'] / 60);
         $mins  = $r['due_in'] % 60;
         $r['due_in_str'] = "{$hours} hr" . ($hours > 1 ? "s" : "") .
-            ($mins > 0 ? " {$mins} min" : "");
+            ($mins > 0 ? " {$mins} mins" : "");
     } else {
-        $r['due_in_str'] = "{$r['due_in']} min";
+        $r['due_in_str'] = "{$r['due_in']} mins";
     }
 }
 unset($r); // break reference
