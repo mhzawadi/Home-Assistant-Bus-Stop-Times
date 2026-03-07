@@ -27,4 +27,4 @@ CMD ["nginx", "-g", "daemon off;"]
 
 ## Health Check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
-  CMD curl -f http://127.0.0.1:8080 || exit 1
+  CMD curl -f http://127.0.0.1:80 || exit 1
