@@ -1,10 +1,10 @@
-FROM alpine:3.23
+FROM alpine:3.24
 LABEL org.opencontainers.image.authors="matt@horwood.biz"
 
 # Install required deb packages
 RUN apk update && apk upgrade && \
-    apk add gnupg nginx php84-fpm php84-simplexml php84-xmlwriter php84-tokenizer \
-    php84-curl php84 php84-phar curl git \
+    apk add gnupg nginx php85-fpm php85-simplexml php85-xmlwriter php85-tokenizer \
+    php85-curl php85 php85-phar curl git \
     && rm -f /var/cache/apk/* \
     && mkdir -p /var/www/html/ \
     && mkdir -p /run/nginx; \
@@ -16,8 +16,8 @@ COPY docker/config /config
 WORKDIR /var/www/html
 COPY src/* .
 RUN chmod +x /config/start.sh; \
-    cp /config/php.ini /etc/php84/php.ini && \
-    cp /config/php_fpm_site.conf /etc/php84/php-fpm.d/www.conf; \
+    cp /config/php.ini /etc/php85/php.ini && \
+    cp /config/php_fpm_site.conf /etc/php85/php-fpm.d/www.conf; \
     cp /config/nginx_site.conf /etc/nginx/http.d/default.conf; \
     chown nobody:nginx /var/www/html/* -R;
 
